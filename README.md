@@ -31,14 +31,11 @@ npm run preview
 
 Production: https://ratiolab.kenyo.dev
 
-Pushes to `main` run `.github/workflows/deploy.yml`, which builds and deploys to Vercel. The workflow can also be run manually. Vercel Git-triggered deployments are disabled to avoid duplicate deployments.
+The Vercel project is connected to this repository. Pushes to `main` deploy to
+production, and pull requests get preview deployments. No GitHub Actions secrets
+are needed.
 
-Repository Actions secrets:
-
-- `VERCEL_TOKEN`: deployment token scoped to this Vercel project.
-- `VERCEL_ORG_ID`: Vercel team ID.
-- `VERCEL_PROJECT_ID`: Vercel project ID.
-
-Cloudflare manages the DNS-only CNAME for `ratiolab.kenyo.dev`; its target is supplied by the Vercel project's domain settings. No Cloudflare credentials are required for subsequent app deployments.
+Cloudflare manages the DNS-only CNAME for `ratiolab.kenyo.dev`; its target is
+supplied by the Vercel project's domain settings.
 
 Logo provenance and the lens display-name lookup are documented in [ASSET-SOURCES.md](ASSET-SOURCES.md).
