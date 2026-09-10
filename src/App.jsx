@@ -31,7 +31,6 @@ const backgrounds = [
   { id: 'cream', label: 'Cream', value: '#efe9dc' },
   { id: 'ink', label: 'Ink', value: '#121216' },
   { id: 'sky', label: 'Sky', value: ['#b8dbff', '#f2d9ef'] },
-  { id: 'sunset', label: 'Glow', value: ['#ffb36a', '#9b6cff'] },
 ]
 
 function drawCover(ctx, image, x, y, width, height) {
