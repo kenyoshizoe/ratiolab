@@ -38,7 +38,7 @@ export function getExifLayout(image, metadata, visibility, hasLogo = false, opti
   const style = options.exifStyle ?? 'gradient'
   const boxed = style === 'box'
   const outside = style === 'text-outside'
-  const darkText = outside && ['cream', 'sky'].includes(options.background)
+  const darkText = outside && ['white', 'cream', 'sky'].includes(options.background)
   const lines = []
   const showMaker = Boolean(enabled && visibility.maker && metadata.maker)
   if (showMaker && !hasLogo) lines.push(metadata.maker)

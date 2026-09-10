@@ -27,6 +27,7 @@ const ratios = [
 
 const backgrounds = [
   { id: 'blur', label: 'Blur', value: '#18181b' },
+  { id: 'white', label: 'White', value: '#ffffff' },
   { id: 'cream', label: 'Cream', value: '#efe9dc' },
   { id: 'ink', label: 'Ink', value: '#121216' },
   { id: 'sky', label: 'Sky', value: ['#b8dbff', '#f2d9ef'] },
