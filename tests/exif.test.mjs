@@ -32,14 +32,21 @@ test('All EXIF toggle combinations preserve native image bounds and output ratio
     assert.equal(layout.lines.includes(metadata.dateTime),visibility.dateTime)
     assert.equal(Boolean(layout.logoSize),visibility.maker)
     if (!mask) assert.equal(layout.height,0)
-    for (const ratio of ['4:5','3:4','89:127','1:1','9:16','16:9']) {
+    for (const ratio of ['4:5','3:4','89:127','127:89','1:1','9:16','16:9']) {
       const [w,h]=ratio.split(':').map(Number)
       const size=compositionSize(image,{ratio,padding:0},layout.height)
-      assert.equal(size.width*h,size.height*w)
+      if (ratio === '89:127' || ratio === '127:89') assert.ok(Math.abs(size.width / size.height - w / h) < 1 / Math.min(size.width, size.height))
+      else assert.equal(size.width*h,size.height*w)
       assert.ok(size.width>=640)
       assert.ok(size.height-layout.height>=480)
     }
   }
+})
+test('L print fit does not add a full 89x127 unit as implicit padding', () => {
+  const nearLPrint = { naturalWidth: 1000, naturalHeight: 1427 }
+  assert.deepEqual(compositionSize(nearLPrint, { ratio: '89:127', fit: 'pad', padding: 0 }), { width: 1000, height: 1427 })
+  const nearLandscape = { naturalWidth: 1427, naturalHeight: 1000 }
+  assert.deepEqual(compositionSize(nearLandscape, { ratio: '127:89', fit: 'pad', padding: 0 }), { width: 1427, height: 1000 })
 })
 test('Absent EXIF adds no strip; unsupported maker falls back to text',()=>{
   assert.equal(getExifLayout(image,{},defaultExifVisibility).height,0)

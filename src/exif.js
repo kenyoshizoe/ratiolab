@@ -88,6 +88,18 @@ export function compositionSize(image, settings, footerHeight = 0) {
     const width = Math.max(1, Math.min(image.naturalWidth, Math.floor((image.naturalHeight + footerHeight) * w / h)))
     return { width, height: Math.max(footerHeight + 1, Math.min(image.naturalHeight + footerHeight, Math.round(width * h / w))) }
   }
+  if (settings.ratio === '89:127' || settings.ratio === '127:89') {
+    // Requiring an exact 89x127 integer multiple can add up to 88x126 pixels
+    // even when the source already matches the L-print ratio. Use the smallest
+    // whole-pixel canvas instead; its ratio differs by less than one pixel.
+    const minimumWidth = image.naturalWidth + settings.padding * 2
+    const minimumHeight = image.naturalHeight + settings.padding * 2 + footerHeight
+    const ratio = w / h
+    if (minimumWidth / minimumHeight >= ratio) {
+      return { width: minimumWidth, height: Math.max(minimumHeight, Math.round(minimumWidth / ratio)) }
+    }
+    return { width: Math.max(minimumWidth, Math.round(minimumHeight * ratio)), height: minimumHeight }
+  }
   const unit = Math.ceil(Math.max((image.naturalWidth + settings.padding * 2) / w, (image.naturalHeight + settings.padding * 2 + footerHeight) / h))
   return { width: w * unit, height: h * unit }
 }
