@@ -5,8 +5,8 @@ A browser-based photo editor for aspect ratios, cropping, backgrounds, and EXIF 
 ## Features
 
 - Fit or crop photos without resizing at 1x; adjust crops with corner handles.
-- Original, 4:5, 3:4, 1:1, 9:16, and 16:9 output formats.
-- EXIF camera logos, camera and lens names, and shooting settings.
+- Original, 4:5, 3:4, L print (89:127), 1:1, 9:16, and 16:9 output formats.
+- EXIF camera logos, camera and lens names, shooting settings, and capture date/time.
 - Text overlays, bottom gradients, white strips, and outside-photo captions.
 - Batch image editing and PNG/ZIP export.
 - Light and dark themes follow the operating system.

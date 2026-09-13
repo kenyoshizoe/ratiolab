@@ -20,7 +20,7 @@ EXIF `Panasonic` maps to LUMIX, and `OM Digital Solutions` maps to OM SYSTEM. Ot
 
 # EXIF
 
-EXIF parsing uses `exifr`: https://github.com/MikeKovarik/exifr . Only Make, Model, LensMake, LensModel, FocalLength, FNumber, ExposureTime and ISO are requested. Parsing and composition run locally in the browser.
+EXIF parsing uses `exifr`: https://github.com/MikeKovarik/exifr . Only Make, Model, LensMake, LensModel, FocalLength, FNumber, ExposureTime, ISO, DateTimeOriginal and CreateDate are requested. DateTimeOriginal is preferred for the capture date/time, with CreateDate as a fallback. Parsing and composition run locally in the browser.
 
 # Tests
 

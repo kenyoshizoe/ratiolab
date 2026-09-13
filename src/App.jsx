@@ -20,6 +20,7 @@ const ratios = [
   { id: 'original', name: 'Original', label: '', width: 1, height: 1 },
   { id: '4:5', label: 'Feed', width: 1080, height: 1350 },
   { id: '3:4', label: 'Tall', width: 1080, height: 1440 },
+  { id: '89:127', name: 'L Print', label: '', width: 89, height: 127 },
   { id: '1:1', label: 'Square', width: 1080, height: 1080 },
   { id: '9:16', label: 'Story', width: 1080, height: 1920 },
   { id: '16:9', label: 'Vlog', width: 1920, height: 1080 },

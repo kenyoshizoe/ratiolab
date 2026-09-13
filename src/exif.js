@@ -7,11 +7,18 @@ export const exifFields = [
   { id: 'camera', label: 'Camera' },
   { id: 'lens', label: 'Lens' },
   { id: 'shooting', label: 'Shooting settings' },
+  { id: 'dateTime', label: 'Date & time' },
 ]
-export const defaultExifVisibility = { maker: true, camera: true, lens: true, shooting: true }
+export const defaultExifVisibility = { maker: true, camera: true, lens: true, shooting: true, dateTime: true }
 const clean = (value) => typeof value === 'string' ? value.replace(/[\x00-\x1f]/g, '').trim() : ''
 const positive = (value) => typeof value === 'number' && Number.isFinite(value) && value > 0
 const decimal = (value) => Number(value.toFixed(2)).toString()
+const pad = (value) => String(value).padStart(2, '0')
+
+export function formatDateTime(value) {
+  if (!(value instanceof Date) || Number.isNaN(value.getTime())) return ''
+  return `${value.getFullYear()}/${pad(value.getMonth() + 1)}/${pad(value.getDate())} ${pad(value.getHours())}:${pad(value.getMinutes())}:${pad(value.getSeconds())}`
+}
 
 export function formatExif(tags = {}) {
   const shooting = []
@@ -25,11 +32,12 @@ export function formatExif(tags = {}) {
   const lensMake = clean(tags.LensMake)
   const lensModel = clean(tags.LensModel)
   const lens = formatLens(lensMake, lensModel)
-  return { maker: clean(tags.Make), camera: clean(tags.Model), lens, shooting: shooting.join('  ·  ') }
+  const dateTime = formatDateTime(tags.DateTimeOriginal ?? tags.CreateDate)
+  return { maker: clean(tags.Make), camera: clean(tags.Model), lens, shooting: shooting.join('  ·  '), dateTime }
 }
 
 export async function readExif(file) {
-  const tags = await exifr.parse(file, { pick: ['Make', 'Model', 'LensMake', 'LensModel', 'FocalLength', 'FNumber', 'ExposureTime', 'ISO'], gps: false })
+  const tags = await exifr.parse(file, { pick: ['Make', 'Model', 'LensMake', 'LensModel', 'FocalLength', 'FNumber', 'ExposureTime', 'ISO', 'DateTimeOriginal', 'CreateDate'], gps: false })
   return formatExif(tags)
 }
 
@@ -42,7 +50,7 @@ export function getExifLayout(image, metadata, visibility, hasLogo = false, opti
   const lines = []
   const showMaker = Boolean(enabled && visibility.maker && metadata.maker)
   if (showMaker && !hasLogo) lines.push(metadata.maker)
-  for (const id of ['camera', 'lens', 'shooting']) {
+  for (const id of ['camera', 'lens', 'shooting', 'dateTime']) {
     if (enabled && visibility[id] && metadata[id]) lines.push(metadata[id])
   }
   const fontSize = Math.max(1, Math.round(Math.min(image.naturalWidth, image.naturalHeight) / 48))
@@ -133,4 +141,3 @@ export function drawExif(ctx, width, height, layout, logo) {
   })
   ctx.restore()
 }
-
